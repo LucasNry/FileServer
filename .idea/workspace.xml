@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="93576cc5-808d-477c-9a8e-f8f80013778f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1ymxUJ7j7NJDu1ZspuXEqvYl7as" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="93576cc5-808d-477c-9a8e-f8f80013778f" name="Default Changelist" comment="" />
+      <created>1632870578870</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632870578870</updated>
+      <workItem from="1632870580742" duration="1109000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="768" y="118" key="SettingsEditor" timestamp="1632874984285">
+      <screen x="0" y="0" width="2560" height="1080" />
+    </state>
+    <state x="768" y="118" key="SettingsEditor/0.0.2560.1080/0.-1080.2560.1080/-1680.0.1680.1050@0.0.2560.1080" timestamp="1632874984285" />
+    <state x="879" y="161" key="new project wizard" timestamp="1632870674486">
+      <screen x="0" y="0" width="2560" height="1080" />
+    </state>
+    <state x="879" y="161" key="new project wizard/0.0.2560.1080/0.-1080.2560.1080/-1680.0.1680.1050@0.0.2560.1080" timestamp="1632870674486" />
+  </component>
+</project>
