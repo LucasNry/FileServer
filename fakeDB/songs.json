@@ -1,0 +1,11 @@
+{
+  "songs" : [
+    {
+      "id" : "1",
+      "name": "Tomorrow",
+      "description" : "Minimalist electric guitar solo. Perfect for an emotional or sad film scene.",
+      "artist" : "Benjamin Tissot",
+      "filename" : "bensound-tomorrow"
+    }
+  ]
+}
