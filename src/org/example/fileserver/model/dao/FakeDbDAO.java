@@ -1,4 +1,4 @@
-package org.example.fileserver.dao;
+package org.example.fileserver.model.dao;
 
 import org.example.fileserver.util.JSONUtil;
 import org.json.simple.JSONArray;

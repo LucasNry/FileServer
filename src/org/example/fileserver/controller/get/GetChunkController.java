@@ -6,7 +6,7 @@ import annotations.RequestHeader;
 import model.Headers;
 import model.HttpResponse;
 import model.RequestStatus;
-import org.example.fileserver.dao.FakeDbDAO;
+import org.example.fileserver.model.dao.FakeDbDAO;
 import org.example.fileserver.model.ChunkRange;
 import org.example.fileserver.model.FileFormat;
 import org.json.simple.JSONObject;
@@ -25,7 +25,7 @@ public class GetChunkController {
     private FakeDbDAO fakeDbDAO = new FakeDbDAO();
 
     @GetOperation(endpoint = "/song")
-    public HttpResponse getChunk(@RequestHeader(RANGE_HEADER_KEY) String range, @QueryParameter String songId) throws Exception {
+    public HttpResponse getChunk(@RequestHeader(RANGE_HEADER_KEY) String range, @QueryParameter("id") String songId) throws Exception {
         JSONObject songInfo = fakeDbDAO.getSongById(songId);
         String fileName = (String) songInfo.get("filename");
 
