@@ -13,13 +13,13 @@ public class JSONUtil {
 
     private static JSONParser jsonParser = new JSONParser();
 
-    public static JSONArray readJSONFile(String fileName) throws Exception {
+    public static synchronized JSONArray readJSONFile(String fileName) throws Exception {
         try (FileReader reader = new FileReader(String.format(FAKE_DB_PATH_TEMPLATE, fileName, FileFormat.JSON.getExtension()))) {
             return (JSONArray) ((JSONObject) jsonParser.parse(reader)).get(fileName);
         }
     }
 
-    public static void writeJSONToFile(String fileName, JSONArray jsonArray) throws Exception {
+    public static synchronized void writeJSONToFile(String fileName, JSONArray jsonArray) throws Exception {
         try (FileWriter file = new FileWriter(String.format(FAKE_DB_PATH_TEMPLATE, fileName, FileFormat.JSON.getExtension()))) {
             file.write(jsonArray.toJSONString());
             file.flush();

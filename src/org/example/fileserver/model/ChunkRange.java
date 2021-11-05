@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class ChunkRange {
 
+    private static final int DEFAULT_CHUNK_SIZE = 10000;
+
     private static final String TO_STRING_TEMPLATE = "%s-%s";
     private static final String RANGE_SEPARATOR = "-";
 
@@ -14,11 +16,15 @@ public class ChunkRange {
 
     private int to;
 
-    public ChunkRange(String rangeHeaderValue) {
+    public ChunkRange(String rangeHeaderValue, int fileLength) {
         String[] rangeStringSplit = rangeHeaderValue.split(RANGE_SEPARATOR);
 
         from = Integer.parseInt(rangeStringSplit[0]);
-        to = Integer.parseInt(rangeStringSplit[1]);
+        if (rangeStringSplit.length > 1) {
+            to = Integer.parseInt(rangeStringSplit[1]);
+        } else {
+            to = Math.min(from + DEFAULT_CHUNK_SIZE, fileLength);
+        }
     }
 
     @Override

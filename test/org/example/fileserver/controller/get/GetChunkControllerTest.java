@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.Base64;
 
 public class GetChunkControllerTest {
@@ -48,13 +49,17 @@ public class GetChunkControllerTest {
         int fileLength = Integer.parseInt(headers.getHeader(GetChunkController.LENGTH_HEADER_KEY));
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(fileLength);
 
-        ChunkRange currentRange = new ChunkRange("0-1000000");
+        ChunkRange currentRange = new ChunkRange("0-1000000", fileLength);
         do {
             HttpResponse response = getChunkController.getChunk(currentRange.toString(), EXPECTED_SONG_ID);
-            byteArrayOutputStream.write(getChunkFromBody(response.getBody()));
+            byte[] chunk = getChunkFromBody(response.getBody());
+            System.out.println(response.getBody());
+            System.out.println();
+            System.out.println(Arrays.toString(chunk));
+            byteArrayOutputStream.write(chunk);
 
             Headers responseHeaders = response.getHeaders();
-            ChunkRange lastRange = new ChunkRange(responseHeaders.getHeader(GetChunkController.RANGE_HEADER_KEY));
+            ChunkRange lastRange = new ChunkRange(responseHeaders.getHeader(GetChunkController.RANGE_HEADER_KEY), fileLength);
             currentRange = new ChunkRange(
                     lastRange.getTo(),
                     Math.min((lastRange.getTo() + 1000000), fileLength)
