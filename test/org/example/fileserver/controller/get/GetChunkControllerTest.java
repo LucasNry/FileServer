@@ -11,6 +11,8 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -53,9 +55,6 @@ public class GetChunkControllerTest {
         do {
             HttpResponse response = getChunkController.getChunk(currentRange.toString(), EXPECTED_SONG_ID);
             byte[] chunk = getChunkFromBody(response.getBody());
-            System.out.println(response.getBody());
-            System.out.println();
-            System.out.println(Arrays.toString(chunk));
             byteArrayOutputStream.write(chunk);
 
             Headers responseHeaders = response.getHeaders();
@@ -63,6 +62,31 @@ public class GetChunkControllerTest {
             currentRange = new ChunkRange(
                     lastRange.getTo(),
                     Math.min((lastRange.getTo() + 1000000), fileLength)
+            );
+        } while (byteArrayOutputStream.size() != fileLength);
+
+        Assert.assertArrayEquals(expectedAudioFileInBytes, byteArrayOutputStream.toByteArray());
+    }
+
+    @Test
+    public void testStreamAudioTag() throws Exception {
+        HttpResponse httpResponse = getChunkController.getChunk(null, EXPECTED_SONG_ID);
+        Headers headers = httpResponse.getHeaders();
+        int fileLength = Integer.parseInt(headers.getHeader(GetChunkController.LENGTH_HEADER_KEY));
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(fileLength);
+
+        ChunkRange currentRange = new ChunkRange("0-", fileLength);
+        do {
+            HttpResponse response = getChunkController.getChunkAudioTag(currentRange.toString(), EXPECTED_SONG_ID);
+            byte[] chunk = getChunkFromBody(response.getBody());
+            byteArrayOutputStream.write(chunk);
+
+            Headers responseHeaders = response.getHeaders();
+            String[] splitContentRange = responseHeaders.getHeader(GetChunkController.CONTENT_RANGE_HEADER_KEY).split(" ");
+            String range = splitContentRange[1].split("/")[0];
+            ChunkRange lastRange = new ChunkRange(range, fileLength);
+            currentRange = new ChunkRange(
+                    (lastRange.getTo() + 1) + "-", fileLength
             );
         } while (byteArrayOutputStream.size() != fileLength);
 

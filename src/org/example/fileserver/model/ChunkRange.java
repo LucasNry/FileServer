@@ -7,8 +7,9 @@ import lombok.Data;
 @Data
 public class ChunkRange {
 
-    private static final int DEFAULT_CHUNK_SIZE = 10000;
+    private static final int DEFAULT_CHUNK_SIZE = 15000;
 
+//    private static final String TO_STRING_TEMPLATE = "bytes=%s-%s";
     private static final String TO_STRING_TEMPLATE = "%s-%s";
     private static final String RANGE_SEPARATOR = "-";
 
@@ -29,7 +30,7 @@ public class ChunkRange {
 
     @Override
     public String toString() {
-        return String.format(TO_STRING_TEMPLATE, from, to);
+        return String.format(TO_STRING_TEMPLATE, from, to - 1);
     }
 
     public int getLength() {

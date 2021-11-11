@@ -1,5 +1,6 @@
 package org.example.fileserver.controller.get;
 
+import annotations.ExposeHeaders;
 import annotations.GetOperation;
 import annotations.QueryParameter;
 import annotations.RequestHeader;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Optional;
 
 public class GetChunkController {
     static final String BYTES = "bytes";
@@ -44,8 +46,7 @@ public class GetChunkController {
             Headers headers = new Headers(
                     ACCEPT_RANGES_HEADER_KEY, BYTES,
                     Headers.CONTENT_TYPE, "audio/mpeg",
-                    Headers.CONNECTION, ConnectionType.KEEP_ALIVE.getValue(),
-                    Headers.KEEP_ALIVE, "timeout=60"
+                    Headers.CONNECTION, ConnectionType.KEEP_ALIVE.getValue()
             );
             int fileSize = fileInputStream.available();
 
@@ -64,10 +65,6 @@ public class GetChunkController {
             headers.addHeader(CONTENT_RANGE_HEADER_KEY, String.format(CONTENT_RANGE_TEMPLATE, chunkRange.getFrom(), chunkRange.getTo() - 1, fileSize));
             headers.addHeader(Headers.CONTENT_LENGTH, String.valueOf(audioChunk.length));
 
-            System.out.println(String.format("Serving bytes %s-%s", chunkRange.getFrom(), chunkRange.getTo() - 1));
-            System.out.println(headers.getHeader(CONTENT_RANGE_HEADER_KEY));
-            System.out.println();
-
             return HttpResponse
                     .builder()
                     .requestStatus(RequestStatus.PARTIAL_CONTENT)
@@ -78,6 +75,7 @@ public class GetChunkController {
     }
 
     @GetOperation(endpoint = "/song")
+    @ExposeHeaders(keys = {RANGE_HEADER_KEY, LENGTH_HEADER_KEY})
     public HttpResponse getChunk(@RequestHeader(RANGE_HEADER_KEY) String range, @QueryParameter("id") String songId) throws Exception {
         JSONObject songInfo = fakeDbDAO.getSongById(songId);
         String fileName = (String) songInfo.get("filename");
@@ -99,7 +97,11 @@ public class GetChunkController {
                         .build();
             }
 
-            byte[] audioChunk = getAudioChunk(fileInputStream, new ChunkRange(range, fileInputStream.available()));
+            ChunkRange chunkRange = new ChunkRange(range, fileInputStream.available());
+            byte[] audioChunk = getAudioChunk(fileInputStream, chunkRange);
+
+            headers.addHeader(RANGE_HEADER_KEY, chunkRange.toString());
+
             return HttpResponse
                     .builder()
                     .requestStatus(RequestStatus.OK)
