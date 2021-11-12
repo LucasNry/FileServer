@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Optional;
 
 public class GetChunkController {
     static final String BYTES = "bytes";

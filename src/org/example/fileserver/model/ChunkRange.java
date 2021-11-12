@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ChunkRange {
 
-    private static final int DEFAULT_CHUNK_SIZE = 15000;
+    private static final int DEFAULT_CHUNK_SIZE = 50000;
 
 //    private static final String TO_STRING_TEMPLATE = "bytes=%s-%s";
     private static final String TO_STRING_TEMPLATE = "%s-%s";

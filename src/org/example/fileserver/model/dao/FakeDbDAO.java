@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 public class FakeDbDAO {
     private String FAKE_DB_FILENAME = "songs";
 
-    public JSONObject getSongById(String id) {
+    public synchronized JSONObject getSongById(String id) {
         try {
             JSONArray songList = getAllSongs();
 
@@ -26,7 +26,7 @@ public class FakeDbDAO {
         return null;
     }
 
-    public JSONArray getAllSongs() {
+    public synchronized JSONArray getAllSongs() {
         try {
             return JSONUtil.readJSONFile(FAKE_DB_FILENAME);
         } catch (Exception e) {
