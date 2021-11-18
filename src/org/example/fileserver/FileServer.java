@@ -5,7 +5,7 @@ import controller.ServerController;
 import java.io.IOException;
 
 public class FileServer extends ServerController {
-    private static final int PORT = 9876;
+    private static final int PORT = 8765;
 
     public FileServer() throws IOException {
         super(PORT);
