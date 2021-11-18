@@ -34,7 +34,7 @@ public class GetChunkControllerTest {
     private byte[] getAudioFileInBytes() throws Exception {
         FileInputStream fileInputStream = new FileInputStream(
                 new File(
-                        String.format(GetChunkController.SONG_FILENAME_TEMPLATE, "bensound-tomorrow", FileFormat.MP3.getExtension())
+                        String.format("resources/%s%s", "bensound-tomorrow", FileFormat.MP3.getExtension())
                 )
         );
 
@@ -51,19 +51,20 @@ public class GetChunkControllerTest {
         int fileLength = Integer.parseInt(headers.getHeader(GetChunkController.LENGTH_HEADER_KEY));
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(fileLength);
 
-        ChunkRange currentRange = new ChunkRange("0-1000000", fileLength);
+        ChunkRange currentRange = new ChunkRange("0-", fileLength);
         do {
-            HttpResponse response = getChunkController.getChunk(currentRange.toString(), EXPECTED_SONG_ID);
+            HttpResponse response = getChunkController.getChunk(String.format("%s-", currentRange.getFrom()), EXPECTED_SONG_ID);
             byte[] chunk = getChunkFromBody(response.getBody());
             byteArrayOutputStream.write(chunk);
 
             Headers responseHeaders = response.getHeaders();
             ChunkRange lastRange = new ChunkRange(responseHeaders.getHeader(GetChunkController.RANGE_HEADER_KEY), fileLength);
             currentRange = new ChunkRange(
-                    lastRange.getTo(),
-                    Math.min((lastRange.getTo() + 1000000), fileLength)
+                    String.format("%s-", lastRange.getTo() + 1),
+                    fileLength
             );
-        } while (byteArrayOutputStream.size() != fileLength);
+            System.out.println(currentRange);
+        } while (currentRange.getFrom() != fileLength);
 
         Assert.assertArrayEquals(expectedAudioFileInBytes, byteArrayOutputStream.toByteArray());
     }
